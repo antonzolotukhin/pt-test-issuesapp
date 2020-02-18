@@ -1,0 +1,14 @@
+sudo: required
+services:
+  - docker
+branches:
+  only:
+    - develop
+    - master
+before_install:
+  - docker build -t ptmn/devopshqissuesapp .
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS -e $DOCKER_EMAIL
+  - docker push setevoy/exampleapp1
+script:
+  - if [ $TRAVIS_BRANCH = "develop" ]; then echo "DEV deploy"; fi
+  - if [ $TRAVIS_BRANCH = "master" ]; then docker ps -a; fi
