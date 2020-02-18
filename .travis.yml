@@ -8,7 +8,7 @@ branches:
 before_install:
   - docker build -t ptmn/devopshqissuesapp .
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - docker push setevoy/exampleapp1
+  - docker push ptmn/devopshqissuesapp
 script:
   - if [ $TRAVIS_BRANCH = "develop" ]; then echo "DEV deploy"; fi
   - if [ $TRAVIS_BRANCH = "master" ]; then docker ps -a; fi
