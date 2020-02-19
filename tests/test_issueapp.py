@@ -1,7 +1,6 @@
 import httpretty
 import pytest
 import requests
-from pytest_httpretty import stub_get
 from issuesapp import *
 
 @pytest.mark.httpretty
