@@ -1,17 +1,20 @@
 language: python
 python:
-  - "3.6"
+        - "3.6"
 sudo: required
 services:
-  - docker
+        - docker
 branches:
-  only:
-    - develop
-    - master
+        only:
+                - develop
+                - master
 before_install:
-  - docker build -t ptmn/devopshqissuesapp .
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - docker push ptmn/devopshqissuesapp
+        - pip install -r requirements-travis.txt
+
 script:
-  - if [ $TRAVIS_BRANCH = "develop" ]; then echo "DEV deploy"; fi
-  - if [ $TRAVIS_BRANCH = "master" ]; then docker ps -a; fi
+        - py.test -v issuesapp.py tests
+        - docker build -t ptmn/devopshqissues .
+        - docker login -u $DOCKER_USER -p $DOCKER_PASS
+        - docker push ptmn/devopshqissues
+        - if [ $TRAVIS_BRANCH = "develop" ]; then echo "DEV deploy"; fi
+        - if [ $TRAVIS_BRANCH = "master" ]; then echo "PROD deploy"; fi
