@@ -2,10 +2,8 @@
 import os
 import re
 from urllib.parse import urlparse
-
 import httpretty
 import pytest
-
 
 
 def request_callback_get(request, uri, headers):
@@ -20,16 +18,13 @@ def request_callback_get(request, uri, headers):
     else:
         code = 404
         response = '{\n  "message": "\'' + response_file + '\' Not Found",\n  "documentation_url": "https://developer.mockhub.tld/v3"\n}'
-
-
     return code, headers, response
 
 
 @pytest.fixture(autouse=True)
 def github_server_mock():
-    for method in (httpretty.GET, httpretty.POST, httpretty.PUT, httpretty.PATCH):
-        httpretty.register_uri(method, re.compile(r"https://api.github.com/.*"),
+    for method in (httpretty.GET, httpretty.POST,
+                   httpretty.PUT, httpretty.PATCH):
+        httpretty.register_uri(method, re.compile(r"https://api.*/.*"),
                                body=request_callback_get,
                                content_type="application/json")
-
-
