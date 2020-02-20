@@ -19,7 +19,7 @@ def GitHubAPIRequest(url, creds=''):
     else:
         message = json.loads(response.content)['message']
         raise HTTPGeneralException(
-                "(GET /{url} HTTP response code: {response.status_code})\n" +
+                f"(GET /{url} HTTP response code: {response.status_code})\n" +
                 message)
 
 
