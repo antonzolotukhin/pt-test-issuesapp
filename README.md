@@ -58,7 +58,34 @@
 
 ```$ docker run ptmn/devopshqissues:latest```
 
+```
+artifactory:
+
+#138 AQL issue
+#135 downloading text files with utf-8 encoding
+...
+zabbix-youtrack-action:
+
+#3 Create install script
+#2 Create good docs
+#1 Refactor code
+
+zabbixtools:
+
+```
+
 Аргументы передаются в приложение, можно вывести справку:
 
 ```$ docker run ptmn/devopshqissues:latest -h```
+
+```
+usage: issuesapp.py [-h] [-u USER] [-r REPO] [-c CREDS]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -u USER, --user USER  You can define github account instead of "devopshq".
+  -r REPO, --repo REPO  Also you can specify repository.
+  -c CREDS, --creds CREDS
+                        Access credentials in format "login:token".
+```
 
