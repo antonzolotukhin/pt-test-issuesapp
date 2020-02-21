@@ -7,4 +7,4 @@ COPY issuesapp.py .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-CMD [ "python", "./issuesapp.py" ]
+ENTRYPOINT [ "python", "./issuesapp.py" ]

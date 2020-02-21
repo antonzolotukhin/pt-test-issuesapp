@@ -49,7 +49,7 @@ def test_GetIssuesByUserRepo_length():
 @pytest.mark.httpretty
 def test_GetIssuesByUserRepo_empty():
     issues = list(GetIssuesByUserRepo('testuser',
-                    'betaflight-configurator-nightlies'))
+                                      'betaflight-configurator-nightlies'))
 
     assert len(issues) == 0
 
@@ -61,12 +61,16 @@ def test_GithubCredsType_exception_on_passwd():
 
 def test_GithubCredsType_exception_on_toolong_token():
     with pytest.raises(ArgumentTypeError):
-        assert GithubCredsType('adolf:1bea06ef9c1b7b2a8babadcb87ba426d3feb7b6e1')
+        c = 'randlf:1bea06ef9c1b7b2a8babadcb87ba426d3feb7b6e1'
+        assert GithubCredsType(c)
 
 
 def test_GithubCredsType_exception_on_toolong_login():
     with pytest.raises(ArgumentTypeError):
-        assert GithubCredsType('qwertyqwertyqwertyqwertyqwertyqwertyqwertyqwerty:1bea06ef9c1b7b2a8babadcb87ba426d3feb7b6e')
+        u = 'qwertyqwertyqwertyqwertyqwertyqwertyqwertyqwerty'
+        p = '1bea06ef9c1b7b2a8babadcb87ba426d3feb7b6e'
+        c = u + ':' + p
+        assert GithubCredsType(c)
 
 
 def test_GithubCredsType_empty_is_ok():
@@ -74,5 +78,5 @@ def test_GithubCredsType_empty_is_ok():
 
 
 def test_GithubCredsType_login_token_is_ok():
-    creds = 'vasya:1bea06ef9c1b7b2a8babadcb87ba426d3feb7b6e'
-    assert GithubCredsType(creds) == creds
+    c = 'vasya:1bea06ef9c1b7b2a8babadcb87ba426d3feb7b6e'
+    assert GithubCredsType(c) == c
