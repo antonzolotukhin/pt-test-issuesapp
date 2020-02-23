@@ -2,13 +2,13 @@ import httpretty
 import pytest
 import requests
 from argparse import ArgumentTypeError
-from issuesapp import *
+import issuesapp
 
 
 @pytest.mark.httpretty
 def test_GitHubAPIRequest_returns_parsed_json():
 
-    repos = GitHubAPIRequest('users/testuser/repos')
+    repos = issuesapp.GitHubAPIRequest('users/testuser/repos')
 
     assert repos[0]['name'] == 'betaflight'
     assert repos[1]['name'] == 'betaflight-configurator'
@@ -17,14 +17,13 @@ def test_GitHubAPIRequest_returns_parsed_json():
 
 @pytest.mark.httpretty
 def test_GitHubAPIRequest_raise_exception_on_unsuccesful_request():
-    with pytest.raises(HTTPGeneralException):
-        assert GitHubAPIRequest('omg/wtf')
+    with pytest.raises(issuesapp.HTTPGeneralException):
+        assert issuesapp.GitHubAPIRequest('omg/wtf')
 
 
-@pytest.mark.httpretty
-def test_GetReposByUser():
+def test_GetReposByUser(GitHubAPIRequest_mock):
 
-    repos = list(GetReposByUser('testuser'))
+    repos = list(issuesapp.GetReposByUser('testuser'))
 
     assert repos[0] == 'betaflight'
     assert repos[1] == 'betaflight-configurator'
@@ -32,37 +31,34 @@ def test_GetReposByUser():
     assert repos[3] == 'betaflight-crsf-tx-scripts'
 
 
-@pytest.mark.httpretty
-def test_GetIssuesByUserRepo_values():
-    issues = list(GetIssuesByUserRepo('testuser', 'blackbox-tools'))
+def test_GetIssuesByUserRepo_values(GitHubAPIRequest_mock):
+    issues = list(issuesapp.GetIssuesByUserRepo('testuser', 'blackbox-tools'))
 
     assert issues[5] == (2, 'Provide pre built binaries.')
 
 
-@pytest.mark.httpretty
-def test_GetIssuesByUserRepo_length():
-    issues = list(GetIssuesByUserRepo('testuser', 'blackbox-tools'))
+def test_GetIssuesByUserRepo_length(GitHubAPIRequest_mock):
+    issues = list(issuesapp.GetIssuesByUserRepo('testuser', 'blackbox-tools'))
 
     assert len(issues) == 6
 
 
-@pytest.mark.httpretty
-def test_GetIssuesByUserRepo_empty():
-    issues = list(GetIssuesByUserRepo('testuser',
-                                      'betaflight-configurator-nightlies'))
+def test_GetIssuesByUserRepo_empty(GitHubAPIRequest_mock):
+    issues = issuesapp.GetIssuesByUserRepo('testuser',
+                                           'betaflight-configurator-nightlies')
 
-    assert len(issues) == 0
+    assert len(list(issues)) == 0
 
 
 def test_GithubCredsType_exception_on_passwd():
     with pytest.raises(ArgumentTypeError):
-        assert GithubCredsType('antonzolotukhin:AbraKadbra31337')
+        assert issuesapp.GithubCredsType('antonzolotukhin:AbraKadbra31337')
 
 
 def test_GithubCredsType_exception_on_toolong_token():
     with pytest.raises(ArgumentTypeError):
         c = 'randlf:1bea06ef9c1b7b2a8babadcb87ba426d3feb7b6e1'
-        assert GithubCredsType(c)
+        assert issuesapp.GithubCredsType(c)
 
 
 def test_GithubCredsType_exception_on_toolong_login():
@@ -70,13 +66,13 @@ def test_GithubCredsType_exception_on_toolong_login():
         u = 'qwertyqwertyqwertyqwertyqwertyqwertyqwertyqwerty'
         p = '1bea06ef9c1b7b2a8babadcb87ba426d3feb7b6e'
         c = u + ':' + p
-        assert GithubCredsType(c)
+        assert issuesapp.GithubCredsType(c)
 
 
 def test_GithubCredsType_empty_is_ok():
-    assert GithubCredsType('') == ''
+    assert issuesapp.GithubCredsType('') == ''
 
 
 def test_GithubCredsType_login_token_is_ok():
     c = 'vasya:1bea06ef9c1b7b2a8babadcb87ba426d3feb7b6e'
-    assert GithubCredsType(c) == c
+    assert issuesapp.GithubCredsType(c) == c

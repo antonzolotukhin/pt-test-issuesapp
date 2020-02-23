@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
+sys.path.append(os.path.join(sys.path[0], '../'))
 import re
 from urllib.parse import urlparse
+import json
 import httpretty
 import pytest
-
+import issuesapp
 
 def request_callback_get(request, uri, headers):
     """
@@ -12,6 +15,10 @@ def request_callback_get(request, uri, headers):
     расположенных по соответствующему пути.
     Взято с devopshq/tfs.
     """
+    code,response = get_from_file(uri)
+    return code, headers, response
+
+def get_from_file(uri):
     path = urlparse(uri).path
     response_file = os.path.normpath('tests/resources/{}'.format(path))
     response_file = os.path.join(response_file, 'response.json')
@@ -24,8 +31,7 @@ def request_callback_get(request, uri, headers):
         response = '''{\n  "message": "Not Found",\n
                    "documentation_url": "https://developer.mockhub.tld/v3"\n}
                    '''
-    return code, headers, response
-
+    return code,response
 
 @pytest.fixture(autouse=True)
 def github_server_mock():
@@ -37,3 +43,15 @@ def github_server_mock():
         httpretty.register_uri(method, re.compile(r"https://api.*/.*"),
                                body=request_callback_get,
                                content_type="application/json")
+
+@pytest.fixture
+def GitHubAPIRequest_mock(mocker):
+    """
+    Подмена функции GitHubAPIRequest()
+    """
+    def fakeGitHubAPIRequest(url: str, creds: str=''):
+        uri = f'https://{creds}api.github.com/{url}'
+        code, response = get_from_file(uri)
+        print(f'fakeGitHubAPIRequest: {uri}')
+        return json.loads(response)
+    mocker.patch('issuesapp.GitHubAPIRequest', new=fakeGitHubAPIRequest)
