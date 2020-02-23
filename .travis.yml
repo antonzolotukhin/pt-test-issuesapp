@@ -14,9 +14,9 @@ jobs:
   include:
     - stage: "Test"
       script: python setup.py pytest
-    - stage: "Build package"
+    - stage: "Build"
       script:
-        - python setup.py build
+        - python setup.py bdist_wheel
         - docker build -t ptmn/devopshqissues .
         - docker login -u $DOCKER_USER -p $DOCKER_PASS
         - docker push ptmn/devopshqissues
