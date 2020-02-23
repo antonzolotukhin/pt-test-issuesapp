@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import requests
-import json
 import argparse
 import re
 from sys import stderr
@@ -15,7 +14,7 @@ class HTTPGeneralException(Exception):
     pass
 
 
-def GitHubAPIRequest(url, creds=''):
+def GitHubAPIRequest(url:str, creds:str=''):
     """
     Функция отправляет GET запрос к api.github.com и в случае успеха
     возвращает разобранный json в ввиде списка словарей.
@@ -35,16 +34,16 @@ def GitHubAPIRequest(url, creds=''):
 
     # Если сервер ответил статус 200 OK, возвращаем спрасенный JSON
     if response.status_code == 200:
-        return json.loads(response.content)
+        return response.json()
     # Во всех остальных случаях выкидывам Exception
     else:
-        message = json.loads(response.content)['message']
+        message = response.json()['message']
         raise HTTPGeneralException(
                 f"(GET /{url} HTTP response code: {response.status_code})\n" +
                 message)
 
 
-def GetReposByUser(user, creds=''):
+def GetReposByUser(user:str, creds:str=''):
     """
     Получаем генератор списка репозиториев пользователя user.
     Если указанный пользователь не существует,
@@ -57,7 +56,7 @@ def GetReposByUser(user, creds=''):
         yield repo['name']
 
 
-def GetIssuesByUserRepo(user, repo, creds=''):
+def GetIssuesByUserRepo(user:str, repo:str, creds:str=''):
     """
     Получаем issues из репозитория repo пользователя user.
     Если указанный пользователь, или репозиторий не существует,
@@ -72,7 +71,7 @@ def GetIssuesByUserRepo(user, repo, creds=''):
         yield (iss['number'], iss['title'])
 
 
-def GithubCredsType(arg_value,
+def GithubCredsType(arg_value:str,
                     pat=re.compile(r"^[a-zA-Z0-9\-]{0,39}\:[a-f0-9]{40}$")):
     """
     Функция для проверки аргумента --creds.
