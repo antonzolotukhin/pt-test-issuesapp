@@ -13,6 +13,7 @@ before_install:
 
 script:
         - set -e
+        - export PYTHONPATH="${PYTHONPATH}:${PWD}"
         - printenv
         - py.test -sv tests
         - docker build -t ptmn/devopshqissues .

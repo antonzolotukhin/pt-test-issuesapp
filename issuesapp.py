@@ -14,7 +14,7 @@ class HTTPGeneralException(Exception):
     pass
 
 
-def GitHubAPIRequest(url:str, creds:str=''):
+def GitHubAPIRequest(url: str, creds: str = ''):
     """
     Функция отправляет GET запрос к api.github.com и в случае успеха
     возвращает разобранный json в ввиде списка словарей.
@@ -43,7 +43,7 @@ def GitHubAPIRequest(url:str, creds:str=''):
                 message)
 
 
-def GetReposByUser(user:str, creds:str=''):
+def GetReposByUser(user: str, creds: str = ''):
     """
     Получаем генератор списка репозиториев пользователя user.
     Если указанный пользователь не существует,
@@ -56,7 +56,7 @@ def GetReposByUser(user:str, creds:str=''):
         yield repo['name']
 
 
-def GetIssuesByUserRepo(user:str, repo:str, creds:str=''):
+def GetIssuesByUserRepo(user: str, repo: str, creds: str = ''):
     """
     Получаем issues из репозитория repo пользователя user.
     Если указанный пользователь, или репозиторий не существует,
@@ -71,7 +71,7 @@ def GetIssuesByUserRepo(user:str, repo:str, creds:str=''):
         yield (iss['number'], iss['title'])
 
 
-def GithubCredsType(arg_value:str,
+def GithubCredsType(arg_value: str,
                     pat=re.compile(r"^[a-zA-Z0-9\-]{0,39}\:[a-f0-9]{40}$")):
     """
     Функция для проверки аргумента --creds.
