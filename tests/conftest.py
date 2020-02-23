@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 import json
 import httpretty
 import pytest
-import issuesapp
+import pttestissuesapp.issuesapp
 
 
 def request_callback_get(request, uri, headers):

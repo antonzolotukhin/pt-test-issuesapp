@@ -2,7 +2,7 @@ import httpretty
 import pytest
 import requests
 from argparse import ArgumentTypeError
-import issuesapp
+import pttestissuesapp.issuesapp
 
 
 @pytest.mark.httpretty
