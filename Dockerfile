@@ -2,9 +2,11 @@ FROM python:3-alpine
 
 WORKDIR /pt-issuesapp
 COPY requirements.txt .
-COPY issuesapp.py .
+COPY ./dist/*.egg .
 
 RUN pip install --upgrade pip
+RUN pip install setuptools
 RUN pip install -r requirements.txt
+RUN easy_install *.egg
 
-ENTRYPOINT [ "python", "./issuesapp.py" ]
+ENTRYPOINT [ "pt-test-issuesapp" ]

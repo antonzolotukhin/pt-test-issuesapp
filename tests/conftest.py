@@ -5,8 +5,7 @@ from urllib.parse import urlparse
 import json
 import httpretty
 import pytest
-import pttestissuesapp.issuesapp
-
+import pttestissuesapp
 
 def request_callback_get(request, uri, headers):
     """
@@ -56,4 +55,4 @@ def GitHubAPIRequest_mock(mocker):
         code, response = get_from_file(uri)
         print(f'fakeGitHubAPIRequest: {uri}')
         return json.loads(response)
-    mocker.patch('issuesapp.GitHubAPIRequest', new=fakeGitHubAPIRequest)
+    mocker.patch('pttestissuesapp.issuesapp.GitHubAPIRequest', new=fakeGitHubAPIRequest)
