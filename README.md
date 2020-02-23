@@ -26,6 +26,8 @@
 
   Для работы с аргументами командной строки используется стандартная библиотека argparse.
 
+  Приложение оформлено в виде пакета, за основу пакета взят шаблон с репозитория https://github.com/devopshq/ExampleProject.
+
 ### Разработка тестов
 
   Тестирования без запросов к серверу реализовано посредством mock'а на базе библиотеки **HTTPretty**.
@@ -59,10 +61,11 @@
 
 ### Результат
 
-Приложение можно запустить командой:
+Приложение доступно в виде docker-образа на DockerHub:
 
-```$ docker run ptmn/devopshqissues:latest```
-
+```
+$ docker run ptmn/devopshqissues:latest
+```
 ```
 artifactory:
 
@@ -92,4 +95,11 @@ optional arguments:
   -r REPO, --repo REPO  Also you can specify repository.
   -c CREDS, --creds CREDS
                         Access credentials in format "login:token".
+```
+
+Кроме того, можно собрать и установить пакет:
+```
+$ python setup.py install --user
+
+$ pt-test-issuesapp -h
 ```
