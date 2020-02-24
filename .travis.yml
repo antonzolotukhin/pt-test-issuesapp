@@ -19,26 +19,6 @@ script:
   - python setup.py bdist_wheel
   - docker build -t ptmn/devopshqissues .
 
-deploy:
-  - provider: script
-    script:
-      - docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push ptmn/devopshqissues:dev
-    on:
-      branch: develop
-    skip_cleanup: true
-  - provider: script
-    script:
-      - docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push ptmn/devopshqissues
-    on:
-      branch: master
-    skip_cleanup: true
-  - provider: script
-    script:
-      - ls
-      - docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push ptmn/devopshqissues:tst
-    on:
-      branch: travisconf
-    skip_cleanup: true
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker push ptmn/devopshqissues
