@@ -8,6 +8,7 @@ branches:
         only:
                 - develop
                 - master
+                - travisconf
 before_install:
         - pip install -r requirements-travis.txt
 
@@ -17,5 +18,23 @@ script:
   - python setup.py pytest
   - python setup.py bdist_wheel
   - docker build -t ptmn/devopshqissues .
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - docker push ptmn/devopshqissues
+
+deploy:
+  - provider: script
+    script:
+      - docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push ptmn/devopshqissues:dev
+    on:
+      branch: develop
+  - provider: script
+    script:
+      - docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push ptmn/devopshqissues
+    on:
+      branch: master
+  - provider: script
+    script:
+      - echo docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - echo docker push ptmn/devopshqissues
+    on:
+      branch: travisconf
