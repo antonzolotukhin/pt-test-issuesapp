@@ -38,6 +38,7 @@ deploy:
     script:
       - ls
       - docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push ptmn/devopshqissues
+      - docker push ptmn/devopshqissues:tst
     on:
       branch: travisconf
+      skip_cleanup: true
