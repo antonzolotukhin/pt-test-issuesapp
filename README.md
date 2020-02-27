@@ -1,5 +1,6 @@
 ## Тестовое задание
-
+[![Build Status](https://travis-ci.com/antonzolotukhin/pt-test-issuesapp.svg?branch=master)](https://travis-ci.com/antonzolotukhin/pt-test-issuesapp)
+---
 ### Пример использования приложения
 
 Приложение доступно в виде docker-образа на DockerHub:
