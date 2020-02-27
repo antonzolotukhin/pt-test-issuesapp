@@ -64,6 +64,10 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
 
+    platforms=[
+        'any'
+    ],
+
     keywords=[  # перечислите все ключевые слова, которые ассоциируются с вашим инструментом, каждое слово отдельной записью
         'exampleproject',
         'devops',
@@ -78,7 +82,7 @@ setup(
     ],
 
     tests_require=[  # необходимо перечислить ВСЕ библиотеки, которые должны быть установлены для запуска тестов
-        'requests==2.21.0',
+        'requests',
         'pytest==3.1.2',
         'HTTPretty',
         'pytest_httpretty',

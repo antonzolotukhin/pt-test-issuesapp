@@ -1,24 +1,27 @@
 language: python
+os: linux
+
 python:
-        - "3.6"
-sudo: required
+    - "3.6"
+
 services:
-        - docker
+    - docker
+
 branches:
-        only:
-                - develop
-                - master
-                - travisconf
+    only:
+        - develop
+        - master
+
 before_install:
-        - pip install -r requirements-travis.txt
+    - python -m pip install --upgrade pip
 
 script:
-  - printenv
-  - set -e
-  - python setup.py pytest
-  - python setup.py bdist_wheel
-  - docker build -t ptmn/devopshqissues .
+    - printenv
+    - set -e
+    - python setup.py pytest
+    - python setup.py bdist_wheel
+    - docker build -t ptmn/devopshqissues .
 
 after_success:
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - docker push ptmn/devopshqissues
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+    - docker push ptmn/devopshqissues

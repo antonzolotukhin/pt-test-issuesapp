@@ -1,5 +1,51 @@
 ## Тестовое задание
 
+### Пример использования приложения
+
+Приложение доступно в виде docker-образа на DockerHub:
+
+```
+$ docker run ptmn/devopshqissues:latest
+```
+```
+artifactory:
+
+#138 AQL issue
+#135 downloading text files with utf-8 encoding
+...
+zabbix-youtrack-action:
+
+#3 Create install script
+#2 Create good docs
+#1 Refactor code
+
+zabbixtools:
+
+```
+
+Аргументы передаются в приложение, можно вывести справку:
+
+```$ docker run ptmn/devopshqissues:latest -h```
+
+```
+usage: issuesapp.py [-h] [-u USER] [-r REPO] [-c CREDS]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -u USER, --user USER  You can define github account instead of "devopshq".
+  -r REPO, --repo REPO  Also you can specify repository.
+  -c CREDS, --creds CREDS
+                        Access credentials in format "login:token".
+```
+
+Кроме того, можно собрать и установить пакет:
+```
+$ python setup.py install --user
+
+$ pt-test-issuesapp -h
+```
+
+
 ### Подготовка
 
   В процессе изучения документации на https://developer.github.com/v3 был сделан вывод о том, что единственным доступным способом просмотра issues по всем репозиториям пользователя является получение списка репозиториев пользователя запросом `GET users/:user/repos` и просмотр issues в каждом репозитории запросом `GET /repos/:user/:repo/issues`.
@@ -58,48 +104,3 @@
 ### travis-ci
 
   В соответствии с заданием, travis следит за ветками develop и master. При пуше в ветку, устанавливаются зависимости для тестовой среды. В случае успешного выполнения тестов, собирается Docker-образ и выкладывается на dockerhub.
-
-### Результат
-
-Приложение доступно в виде docker-образа на DockerHub:
-
-```
-$ docker run ptmn/devopshqissues:latest
-```
-```
-artifactory:
-
-#138 AQL issue
-#135 downloading text files with utf-8 encoding
-...
-zabbix-youtrack-action:
-
-#3 Create install script
-#2 Create good docs
-#1 Refactor code
-
-zabbixtools:
-
-```
-
-Аргументы передаются в приложение, можно вывести справку:
-
-```$ docker run ptmn/devopshqissues:latest -h```
-
-```
-usage: issuesapp.py [-h] [-u USER] [-r REPO] [-c CREDS]
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -u USER, --user USER  You can define github account instead of "devopshq".
-  -r REPO, --repo REPO  Also you can specify repository.
-  -c CREDS, --creds CREDS
-                        Access credentials in format "login:token".
-```
-
-Кроме того, можно собрать и установить пакет:
-```
-$ python setup.py install --user
-
-$ pt-test-issuesapp -h
-```
