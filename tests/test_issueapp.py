@@ -1,6 +1,4 @@
-import httpretty
 import pytest
-import requests
 from argparse import ArgumentTypeError
 from pttestissuesapp import issuesapp
 
